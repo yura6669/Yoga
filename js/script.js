@@ -95,4 +95,32 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     setClock('timer', deadline);
+
+    // Модальне вікно для "Дізнатися більше" під таймером
+    let more = document.querySelector('.more'),
+        descrTab = document.querySelectorAll('.description-btn'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close');
+
+        more.addEventListener('click', function() {
+            overlay.style.display = 'block';
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Модальне вікно для "Дізнатися детальніше" в табах
+        for (let i = 0; i < descrTab.length; i++) {
+            descrTab[i].addEventListener('click', function() {
+                overlay.style.display = 'block';
+                this.classList.add('more-splash');
+                document.body.style.overflow = 'hidden';
+            });
+       }
+
+        close.addEventListener('click', function() {
+            overlay.style.display = 'none';
+            more.classList.remove('more-splash');
+            document.body.style.overflow = '';
+        });
+        
 });
