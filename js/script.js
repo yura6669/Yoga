@@ -39,4 +39,60 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // Створення таймеру зворотнього відліку
+    let deadline = '2021-02-20'; // Оголошення кінцевої дати
+    
+    // Функція, яка вираховує з мілісекунд секунди, хвилини та години
+    function getTimeRemaining(endtime) {
+        let t = Date.parse(endtime) - Date.parse(new Date()),
+        seconds = Math.floor( (t/1000) % 60 ),
+        minutes = Math.floor( (t/1000/60) % 60 ),
+        hours = Math.floor( (t / (1000*60*60) ) );
+
+        return {
+            'total': t,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        };
+    }
+
+    //Функція, яка вставляє таймер на сайт
+    function setClock(id, endTime) {
+        let timer = document.getElementById(id),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            timeInterval = setInterval(updateClock, 1000);
+
+            // Функція, яка оновлює таймер кожної секунди
+            function updateClock() {
+                let t = getTimeRemaining(endTime);
+                hours.textContent = t.hours;
+                minutes.textContent = t.minutes;
+                seconds.textContent = t.seconds;
+
+                if (t.total <= 0) {
+                    clearInterval(timeInterval);
+                    hours.textContent = '00';
+                    minutes.textContent = '00';
+                    seconds.textContent = '00';
+                }
+
+                if (t.hours >=0 && t.hours <= 9) {
+                    hours.textContent = '0' + t.hours;
+                }
+
+                if (t.minutes >=0 && t.minutes <= 9) {
+                    minutes.textContent = '0' + t.minutes;
+                }
+                
+                if (t.seconds >=0 && t.seconds <= 9) {
+                    seconds.textContent = '0' + t.seconds;
+                }
+            }
+    }
+
+    setClock('timer', deadline);
 });
