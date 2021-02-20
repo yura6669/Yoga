@@ -8,23 +8,23 @@ window.addEventListener('DOMContentLoaded', function() {
         tabContent = document.querySelectorAll('.info-tabcontent');
 
     //Функція, яка ховає таби
-    function hideTabContent(a) {
+    let hideTabContent = (a) => {
         for (let i = a; i < tabContent.length; i++) {
             tabContent[i].classList.remove('show');
             tabContent[i].classList.add('hide');
         }
-    }
+    };
 
     // Показує перший таб
     hideTabContent(1);
 
     //Функція, яка показує таби
-    function showTabContent(b) {
+    let showTabContent = (b) => {
         if (tabContent[b].classList.contains('hide')) {
             tabContent[b].classList.remove('hide');
             tabContent[b].classList.add('show');
         }
-    }
+    };
 
     // Перебір кнопок та табів
     info.addEventListener('click', function(event) {
@@ -41,10 +41,10 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     // Створення таймеру зворотнього відліку
-    let deadline = '2021-02-20'; // Оголошення кінцевої дати
+    let deadline = '2021-02-21'; // Оголошення кінцевої дати
     
     // Функція, яка вираховує з мілісекунд секунди, хвилини та години
-    function getTimeRemaining(endtime) {
+    let getTimeRemaining = (endtime) => {
         let t = Date.parse(endtime) - Date.parse(new Date()),
         seconds = Math.floor( (t/1000) % 60 ),
         minutes = Math.floor( (t/1000/60) % 60 ),
@@ -56,10 +56,10 @@ window.addEventListener('DOMContentLoaded', function() {
             'minutes': minutes,
             'seconds': seconds
         };
-    }
+    };
 
     //Функція, яка вставляє таймер на сайт
-    function setClock(id, endTime) {
+    let setClock = (id, endTime) =>  {
         let timer = document.getElementById(id),
             hours = timer.querySelector('.hours'),
             minutes = timer.querySelector('.minutes'),
@@ -92,7 +92,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     seconds.textContent = '0' + t.seconds;
                 }
             }
-    }
+    };
 
     setClock('timer', deadline);
 
