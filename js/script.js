@@ -122,5 +122,92 @@ window.addEventListener('DOMContentLoaded', function() {
             more.classList.remove('more-splash');
             document.body.style.overflow = '';
         });
+
+    // Відправка даних з форми (модальне вікно)
+    let message = {
+        loading: 'Завантаження...',
+        success: "Дякуємо! Скоро ми з вами зв'яжемось",
+        failure: 'Щось пішло не так...'
+    };
+
+    let form = document.querySelector('.main-form'),
+        formContact = document.querySelector('.form-contact'),
+        input = form.getElementsByTagName('input'),
+        inputContact = formContact.getElementsByTagName('input'),
+        statusMessage = document.createElement('div');
+
+    statusMessage.classList.add('status');
+
+    // Модальне вікно
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+
+        let request = new XMLHttpRequest();
         
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+
+        let formData = new FormData(form);
+
+        let obj = {};
+        formData.forEach(function(value, key) {
+            obj[key] = value;
+        });
+
+        let json = JSON.stringify(obj);
+
+        request.send(json);
+       
+        request.addEventListener('readystatechange', function() {
+            if (request.readyState < 4) {
+                statusMessage.innerHTML = message.loading;
+            } else if (request.readyState === 4 && request.status == 200) {
+                statusMessage.innerHTML = message.success;
+            } else {
+                statusMessage.innerHTML = message.failure;
+            }
+        });
+
+        for (let i = 0; i < input.length; i++) {
+            input[i].value = '';
+        }
+    });
+
+    // Контактна форма
+    formContact.addEventListener('submit', function(eventContact) {
+        eventContact.preventDefault();
+        formContact.appendChild(statusMessage);
+
+        let requestContact = new XMLHttpRequest();
+        
+        requestContact.open('POST', 'server.php');
+        requestContact.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+
+        let formDataContact = new FormData(formContact);
+
+        let objContact = {};
+        formDataContact.forEach(function(valueContact, keyContact) {
+            objContact[keyContact] = valueContact;
+        });
+
+        let jsonContact = JSON.stringify(objContact);
+
+        requestContact.send(jsonContact);
+       
+        requestContact.addEventListener('readystatechange', function() {
+            if (requestContact.readyState < 4) {
+                statusMessage.innerHTML = message.loading;
+            } else if (requestContact.readyState === 4 && requestContact.status == 200) {
+                statusMessage.innerHTML = message.success;
+            } else {
+                statusMessage.innerHTML = message.failure;
+            }
+        });
+
+        for (let i = 0; i < inputContact.length; i++) {
+            inputContact[i].value = '';
+        }
+    });
+
 });
