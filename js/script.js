@@ -316,4 +316,45 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // Калькулятор
+    let persons = document.querySelectorAll('.counter-block-input')[0],
+        restDays = document.querySelectorAll('.counter-block-input')[1],
+        place = document.getElementById('select'),
+        totalValue = document.getElementById('total'),
+        personsSum = 0,
+        daysSum = 0,
+        price = 2000,
+        total = 0;
+
+    totalValue.innerHTML = 0 + ' грн';
+
+    persons.addEventListener('change', function() {
+        personsSum = +this.value;
+        total = (daysSum * personsSum) * price;
+        if (restDays.value == '') {
+            totalValue.innerHTML = 0 + ' грн';
+        } else {
+            totalValue.innerHTML = total + ' грн';
+        }
+    });
+
+    restDays.addEventListener('change', function() {
+        daysSum = +this.value;
+        total = (daysSum * personsSum) * price;
+        if (persons.value == '') {
+            totalValue.innerHTML = 0 + ' грн';
+        } else {
+            totalValue.innerHTML = total + ' грн';
+        }
+    });
+
+    place.addEventListener('change', function() {
+        if (restDays.value == '' || persons.value == '') {
+            totalValue.innerHTML = 0 + ' грн';
+        } else {
+            let a = total;
+            totalValue.innerHTML = a * this.options[this.selectedIndex].value + ' грн';
+        }
+    });
 });
